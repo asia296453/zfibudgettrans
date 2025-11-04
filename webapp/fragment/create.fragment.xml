@@ -1,0 +1,373 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+     xmlns:u="sap.ui.unified"
+	 	xmlns:ui="sap.ui.table"
+    xmlns:custData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+
+    <VBox class="sapUiNoContentPadding sapUiNoMargin">
+       	<f:SimpleForm 
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title=""
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+			<Label  wrapping="true" design="Bold"   text="{i18n>BudgetRequestNo}" />
+				<Text text="{create>/results/Breqno}" />
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>OnBehalfof}" visible="{= ${Header>/data/editable}===true? true : false}"/>
+			<CheckBox  selected="{ViewVis>/data/onbehalf}" 
+			select="oncheckbox"
+			visible="{= ${Header>/data/editable}===true? true : false}"/>
+
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>EmployeeName}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" />
+				<Input  value="{create>/results/Pernr}"  change="ongetpernr"
+				visible="{= ${ViewVis>/data/onbehalf}===false? true : false}"
+				editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}"/>
+                <Text text="{create>/results/Perna}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" >
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+		<Label  wrapping="true" design="Bold"   text="{i18n>EmployeeName}"  visible="{= ${ViewVis>/data/onbehalf}===true? true : false}"/>
+				<Input  value="{create>/results/Pernr}" 
+				 visible="{= ${ViewVis>/data/onbehalf}===true? true : false}" 
+				 showValueHelp="true"
+				 valueHelpRequest="onOpenPernr"
+				 valueHelpOnly="true"/>
+
+                <Text text="{create>/results/Perna}"   visible="{= ${ViewVis>/data/onbehalf}===true? true : false}" >
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>CostCentre}" />
+				<Text text="{user>/results/Kostl}" />
+				<Text text="{user>/results/Ktext}">
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>Division}" />
+				<Text text="{user>/results/Ditxt}" />
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>Department}" />
+				<Text text="{user>/results/Dept}" />
+				<Text text="{user>/results/Dtext}">
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>desc}" />
+				<TextArea value="{create>/results/Btext}" required="true"
+				editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}" maxLength="50"/>	
+
+			<Label  wrapping="true" design="Bold"   text="{i18n>docDate}" />
+				<DatePicker  value="{
+						'path': 'create>/results/Docdate',
+						'type':'sap.ui.model.type.Date',
+						'formatOptions': {
+							'pattern': 'dd-MM-yyyy',
+                            'UTC': true
+						}				
+					}"  editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}" />
+
+	<Label  wrapping="true" design="Bold"   text="{i18n>DocType}" />
+				<Text text="1000 - SACC Budget" />
+
+				<Label  wrapping="true" design="Bold"   text="{i18n>BudgetType}" />
+				<Text text="BT01 - Release Budget" />
+
+				<Label  wrapping="true" design="Bold"   text="{i18n>ProcessType}" />
+				<ComboBox selectedKey="{create>/results/Process}" editable="false"
+                enabled="false" required="true">
+				<items>
+						<core:Item key="TRAN" text="Transfer"/>						
+				</items>
+				</ComboBox>
+			 <Label  wrapping="true" design="Bold"   text="{i18n>docYear}" />
+				<DatePicker  value="{
+						'path': 'create>/results/Docyear',
+						'type':'sap.ui.model.type.Date',
+						'formatOptions': {
+							'pattern': 'yyyy',
+                            'UTC': true
+						}				
+					}"  editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}" /> 
+
+<Label  wrapping="true" design="Bold"   text="{i18n>docYearrec}" />
+				<DatePicker  value="{
+						'path': 'create>/results/Rcvyear',
+						'type':'sap.ui.model.type.Date',
+						'formatOptions': {
+							'pattern': 'yyyy',
+                            'UTC': true
+						}				
+					}"  editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}" /> 
+
+			
+				<Label  wrapping="true" design="Bold"   text=""  />
+                <Button icon="sap-icon://attachment" text="Attachments" iconFirst="true" 
+                    width="50%"
+                    press="onUploadAttachments"
+                    type="Emphasized"
+                    
+                />
+				</f:content>
+		</f:SimpleForm>
+
+		
+		<ui:Table id="itemtable"  rows="{item>/results}"  ariaLabelledBy="title" selectionMode="None">
+		<ui:extension>
+					<OverflowToolbar style="Clear">
+						<Button  text="Add" type="Emphasized" press="onPressAddRow"  enabled="{Header>/data/editable}"/>
+					</OverflowToolbar>
+				</ui:extension>
+				<ui:columns>
+				<ui:Column width="5rem">
+						<Label  wrapping="true" text="" />
+						<ui:template >
+							<Button icon="sap-icon://delete" press="deleteRow" type="Reject"
+							enabled="{Header>/data/editable}"/>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="11rem">
+						<Label  wrapping="true" text="Sender {i18n>FundsCenter}" />
+						<ui:template >
+							 <Input required="true"
+							value="{item>Fundsctr}"
+							editable="{Header>/data/editable}"
+							enabled="{Header>/data/editable}" 
+							 showValueHelp="true"
+								valueHelpRequest="onOpenFundsctr"
+								valueHelpOnly="true"
+						   />
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem" hAlign="End">
+						<Label  wrapping="true" text="Description" />
+						<ui:template >
+							<Text text='{item>Fctxt}'></Text>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="11rem">
+						<Label  wrapping="true" text="Sender {i18n>CommitmentItem}" />
+						<ui:template >
+							<Input required="true"
+							value="{item>Cmmtitem}"
+							editable="{Header>/data/editable}"
+							enabled="{Header>/data/editable}" 
+							 showValueHelp="true"
+								valueHelpRequest="onOpenCmmtitem"
+								valueHelpOnly="true"
+						   />
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem">
+						<Label  wrapping="true" text="Description" />
+						<ui:template >
+							<Text text='{item>Cmtxt}'></Text>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem">
+						<Label  wrapping="true" text="Currency" />
+						<ui:template >
+							<Input value='{item>Curr}' enabled="{Header>/data/editable}"/>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem">
+						<Label  wrapping="true" text="{i18n>Amount} (SAR)" />
+						<ui:template >
+							<Input value='{item>Amt}' type="Number"  enabled="{Header>/data/editable}" />
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="11rem">
+						<Label  wrapping="true" text="Receiver {i18n>FundsCenter}" />
+						<ui:template >
+							<Input required="true"
+							value="{item>Rcvfc}"
+							editable="{Header>/data/editable}"
+							enabled="{Header>/data/editable}" 
+							 showValueHelp="true"
+								valueHelpRequest="onOpenFundsctr1"
+								valueHelpOnly="true"
+						   />
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem">
+						<Label  wrapping="true" text="Description" />
+						<ui:template >
+							<Text text='{item>Rcvfctxt}'></Text>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="11rem">
+						<Label  wrapping="true" text="Receiver {i18n>CommitmentItem}" />
+						<ui:template >
+							<Input required="true"
+							value="{item>Rcvci}"
+							editable="{Header>/data/editable}"
+							enabled="{Header>/data/editable}" 
+							 showValueHelp="true"
+								valueHelpRequest="onOpenCmmtitem1"
+								valueHelpOnly="true"
+						   />
+						</ui:template >
+					</ui:Column>
+					<ui:Column width="9rem">
+						<Label  wrapping="true" text="Description" />
+						<ui:template >
+							<Text text='{item>Rcvcitxt}'></Text>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="15rem"  >
+						<Label  wrapping="true" text="Item Text" />
+						<ui:template >
+							<Input value='{item>Sgtxt}'   enabled="{Header>/data/editable}" maxLength="50"/>
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem"  >
+						<Label  wrapping="true" text="Actual Availability Budget Sender" />
+						<ui:template >
+							<Text text='{item>Avbty}'  />
+						</ui:template >
+					</ui:Column>
+					
+					<ui:Column width="9rem"  >
+						<Label  wrapping="true" text="Actual Availability Budget" />
+						<ui:template >
+							 <Text text='{item>Rcvavbty}'  />
+						</ui:template >
+					</ui:Column>
+				</ui:columns>
+		</ui:Table>
+				
+				
+				<f:SimpleForm  visible="{= !${Header>/data/editable}}"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title=""
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" 
+			class="formNoTitle">
+			<f:content>
+
+			<Table headerText="Approval Log" 
+                    items="{path:'approvallog>/results',templateShareable: false}"
+                >
+                    <columns>
+					<Column>
+                            <Text text="Approval Level" />
+                        </Column>
+                        <Column>
+                            <Text text="Approver" />
+                        </Column>
+                         <Column >
+                            <Text text="Approval Status" />
+                        </Column>
+                          <Column >
+                            <Text text="Approval Date" />
+                        </Column>
+                         <Column >
+                            <Text text="Approved Time" />
+                        </Column>
+                          <Column >
+                            <Text text="Comments" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                          <Text text='{approvallog>Zlevel}'/>
+						  <Text text='{approvallog>Apprname}'/>
+                          <Text text="{path: 'approvallog>Apprstat', type: 'sap.ui.model.type.String', formatter: '.formatstatusapp' }"/>
+                          <Text  text="{path: 'approvallog>Apprdat', type: 'sap.ui.model.type.String', formatter: '.DateFormatStr' }"/>
+                          <Text  text="{path: 'approvallog>Apprtime', type: 'sap.ui.model.type.String', formatter: '.timeformat' }"/>
+                           <Text text='{approvallog>Comments}'/>
+                          </ColumnListItem>
+                    </items>
+                   
+                </Table>   
+			</f:content>
+		</f:SimpleForm>
+
+
+		<f:SimpleForm    visible="{= !${Header>/data/editable}}"
+			editable="true"
+			layout="ResponsiveGridLayout"
+			title=""
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+			<Label  wrapping="true" design="Bold"   text="{i18n>Status}" />
+				<Text text="{path:'create>/results/Status', formatter:'.formatstatusapp'}" />
+
+				<Label  wrapping="true" design="Bold"   text="{i18n>FIDocumentNo}" />
+				<Text text="{create>/results/Docnr}" />
+
+				<Label  wrapping="true" design="Bold"   text="{i18n>RaisedBy}" />
+				<Text text="{create>/results/Crtby}"  />
+              
+			</f:content>
+		</f:SimpleForm>
+
+    </VBox>
+    
+</core:FragmentDefinition>
