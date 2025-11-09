@@ -54,7 +54,7 @@ sap.ui.define([
             else if(window.location.href.indexOf("zfibudgettrans-create") !== -1){
                 stype = "create";
             }else{
-                stype = "create";
+                stype = "display";
             }
             this.setinitialmodels1(sBreqno,stype);
         },
@@ -69,8 +69,11 @@ sap.ui.define([
                 pattern : "PThh'H'mm'M'ss'S'"
             });
             var scurtime = sTimeformat.format(ddate);
-            
+             this.suser = '12002795';
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
+                this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
+                    this.ongetpernrdtls(res.Pernr);
+                 });
                 if(response.Breqno === ''){
                     this.getOwnerComponent().getModel("create").getData().results.Process = 'TRAN';
                 }

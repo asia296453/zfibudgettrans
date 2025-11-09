@@ -94,7 +94,7 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" />
+                enabled="{Header>/data/editable}" change="onpostingdate"/>
 
 	<Label  wrapping="true" design="Bold"   text="{i18n>DocType}" />
 				<Text text="1000 - SACC Budget" />

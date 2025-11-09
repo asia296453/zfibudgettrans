@@ -4,7 +4,7 @@ sap.ui.define([
 ], (UIComponent, models) => {
     "use strict";
 
-    return UIComponent.extend("/.Component", {
+    return UIComponent.extend("zfibudgettrans.Component", {
         metadata: {
             manifest: "json",
             interfaces: [
