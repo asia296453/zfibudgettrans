@@ -432,8 +432,13 @@ sap.ui.define([
                         });
                        // oPayload.Totamt = (oPayload.Totamt).toString();
                         this.showBusy(true);  
-                         oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
-                        oPayload.Rcvyear = oPayload.Rcvyear.getFullYear().toString();
+                        if(oPayload.Docyear.getFullYear() !== '' && oPayload.Docyear.getFullYear() !== null){
+                            oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
+                        }
+                         if(oPayload.Rcvyear.getFullYear() !== '' && oPayload.Rcvyear.getFullYear() !== null){
+                             oPayload.Rcvyear = oPayload.Rcvyear.getFullYear().toString();
+                        }
+                       
                         this.getModel().create("/BUDREQSet", oPayload, {
                             method: "POST",
                             success: function (oData,res) {

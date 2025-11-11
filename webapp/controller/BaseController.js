@@ -121,10 +121,10 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 MessageBox.error("Please enter Description");
                 bflag = false;
             }
-            else if(ovalue.Process === null || ovalue.Process === ''){
-                MessageBox.error("Please select Process Type");
-                bflag = false;
-            }
+            // else if(ovalue.Process === null || ovalue.Process === ''){
+            //     MessageBox.error("Please select Process Type");
+            //     bflag = false;
+            // }
            
             else if(ovalue.Docyear === null || ovalue.Docyear === '' || ovalue.Docyear === '0000'){
                 MessageBox.error("Please enter Sender Document Year");
@@ -162,6 +162,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                     }
                     else if(item.Cmmtitem === ''){
                         MessageBox.error("Please enter Sender Commitment Item");
+                        bflag = false;
+                    }
+                    else if(item.Rcvfc === ''){
+                        MessageBox.error("Please enter Receiver Funds Center");
+                        bflag = false;
+                    }
+                    else if(item.Rcvci === ''){
+                        MessageBox.error("Please enter Receiver Commitment Item");
                         bflag = false;
                     }
                     else if(item.Amt !== ''){
@@ -808,7 +816,7 @@ debugger;
 
 		onStartUpload: function(oEvent) {
 			var oUploadCollection = this.byId("idUploadCollectionAttachments");
-            
+            if(oUploadCollection !== undefined){
 			var cFiles = oUploadCollection.getItems().length;
 			var uploadInfo = cFiles + " file(s)";
 
@@ -817,6 +825,7 @@ debugger;
 
 				
 			}
+        }
 		},
 
 		onBeforeUploadStarts: function(oEvent) {
