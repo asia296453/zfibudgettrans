@@ -69,11 +69,19 @@ sap.ui.define([
                 pattern : "PThh'H'mm'M'ss'S'"
             });
             var scurtime = sTimeformat.format(ddate);
-             this.suser = '12002795';
+            //  this.suser = '12002795';
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
-                this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
-                    this.ongetpernrdtls(res.Pernr);
-                 });
+                if(response.Breqno !== '' && response.Breqno !== null 
+                    && response.Breqno !== undefined && response.Breqno !== '00000000'){
+                        this.getOdata("/CRTDETSet(Crtby='" + response.Pernr + "')", "user", null).then((res) => {
+                            this.ongetpernrdtls(res.Pernr);
+                        });
+                    }
+                    else{
+                        this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
+                            this.ongetpernrdtls(res.Pernr);
+                        });
+                    }
                 if(response.Breqno === ''){
                     this.getOwnerComponent().getModel("create").getData().results.Process = 'TRAN';
                 }
@@ -81,6 +89,7 @@ sap.ui.define([
                     sBreqno = '';
                 }
                 this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
+                this.getdocyear(ddate);
                     this.getOwnerComponent().getModel("create").refresh(true);
                 if(response.Pernr === '00000000'){
                     this.getOwnerComponent().getModel("create").getData().results.Pernr = '';
@@ -432,12 +441,12 @@ sap.ui.define([
                         });
                        // oPayload.Totamt = (oPayload.Totamt).toString();
                         this.showBusy(true);  
-                        if(oPayload.Docyear.getFullYear() !== '' && oPayload.Docyear.getFullYear() !== null){
-                            oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
-                        }
-                         if(oPayload.Rcvyear.getFullYear() !== '' && oPayload.Rcvyear.getFullYear() !== null){
-                             oPayload.Rcvyear = oPayload.Rcvyear.getFullYear().toString();
-                        }
+                        // if(oPayload.Docyear.getFullYear() !== '' && oPayload.Docyear.getFullYear() !== null){
+                        //     oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
+                        // }
+                        //  if(oPayload.Rcvyear.getFullYear() !== '' && oPayload.Rcvyear.getFullYear() !== null){
+                        //      oPayload.Rcvyear = oPayload.Rcvyear.getFullYear().toString();
+                        // }
                        
                         this.getModel().create("/BUDREQSet", oPayload, {
                             method: "POST",

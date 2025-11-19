@@ -258,15 +258,16 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             this.getOdata("/CMTEXTSet","CommitmentItem",[oFilter]);
         },
         ongetActualAvl:function(sfund,scomm,iindx,stype){
+            var syear = this.getOwnerComponent().getModel("create").getData().results.Docyear;
             if(stype === 'S'){
-            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='')";
+            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='" + syear + "')";
             this.getOdata(surl,"",null).then((res) => {
                 this.getView().byId("itemtable").getRows()[iindx].getCells()[12].setText(res.Amt);
                 this.getView().byId("itemtable").getRows()[iindx].getCells()[5].setValue(res.Curr);
             });
             }
             else if(stype === 'R'){
-            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='')";
+            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='" + syear + "')";
             this.getOdata(surl,"",null).then((res) => {
                 this.getView().byId("itemtable").getRows()[iindx].getCells()[13].setText(res.Amt);
             });
@@ -343,7 +344,7 @@ debugger;
             if(sap.ushell !== undefined){
                 this.suser = sap.ushell.Container.getService("UserInfo").getId();
             }
-            this.suser = '12002795';
+           // this.suser = '12002795';
              this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
                     this.ongetpernrdtls(res.Pernr);
                  });
@@ -362,6 +363,7 @@ debugger;
             var surl = "/FYEARSet(Docdate=datetime'" + sdate2 + "')";
             this.getOdata(surl,"",null).then((res) => {
                 this.getOwnerComponent().getModel("create").getData().results.Docyear = res.Docyear;
+                this.getOwnerComponent().getModel("create").getData().results.Rcvyear = res.Docyear;
                 this.getOwnerComponent().getModel("create").refresh(true);
             });
         },

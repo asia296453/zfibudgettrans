@@ -110,7 +110,8 @@
 				</items>
 				</ComboBox>
 			 <Label  wrapping="true" design="Bold"   text="{i18n>docYear}" />
-				<DatePicker  value="{
+			 <Text text="{create>/results/Docyear}"/>
+				<!-- <DatePicker  value="{
 						'path': 'create>/results/Docyear',
 						'type':'sap.ui.model.type.Date',
 						'formatOptions': {
@@ -118,10 +119,11 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" /> 
+                enabled="{Header>/data/editable}" />  -->
 
 <Label  wrapping="true" design="Bold"   text="{i18n>docYearrec}" />
-				<DatePicker  value="{
+<Text text="{create>/results/Rcvyear}"/>
+				<!-- <DatePicker  value="{
 						'path': 'create>/results/Rcvyear',
 						'type':'sap.ui.model.type.Date',
 						'formatOptions': {
@@ -129,7 +131,7 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" /> 
+                enabled="{Header>/data/editable}" />  -->
 
 			
 				<Label  wrapping="true" design="Bold"   text=""  />
