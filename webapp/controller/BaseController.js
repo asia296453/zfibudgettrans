@@ -64,7 +64,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 this.FCTEXT = sap.ui.xmlfragment("zfibudgettrans.fragment.FundsCenter", this);
                 this.getView().addDependent(this.FCTEXT);
             };    
-            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.suser);        
+            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.getOwnerComponent().getModel("create").getData().results.Pernr);        
             this.getOdata("/FCTEXTSet","FundsCenter",oFilter1);
             this.FCTEXT.open();
         },
@@ -78,8 +78,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 this.FCTEXT1 = sap.ui.xmlfragment("zfibudgettrans.fragment.FundsCenter", this);
                 this.getView().addDependent(this.FCTEXT1);
             };            
-            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.suser);
-            this.getOdata("/FCTEXTSet","FundsCenter",oFilter1);
+           // var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.suser);
+            this.getOdata("/FCTEXTSet","FundsCenter",null);//,oFilter1);
             this.FCTEXT1.open();
         },
         onOpenCmmtitem: function (oEvent) {
