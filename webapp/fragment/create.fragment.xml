@@ -269,10 +269,11 @@
 						<ui:template >
 							<Text text='{item>Avbty}'  />
 						</ui:template >
-					</ui:Column>
-					
+					</ui:Column>		
+								
+								
 					<ui:Column width="9rem"  >
-						<Label  wrapping="true" text="Actual Availability Budget" />
+						<Label  wrapping="true" text="Actual Availability Budget Receiver" />
 						<ui:template >
 							 <Text text='{item>Rcvavbty}'  />
 						</ui:template >

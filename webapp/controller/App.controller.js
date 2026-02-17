@@ -5,6 +5,7 @@ sap.ui.define([
 
   return BaseController.extend("zfibudgettrans.controller.App", {
       onInit() {
+        
       }
   });
 });
