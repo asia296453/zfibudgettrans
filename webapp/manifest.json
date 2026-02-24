@@ -29,9 +29,9 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "empclaimreq-display": {
+        "zfibudgettrans-create": {
           "semanticObject": "zfibudgettrans",
-          "action": "display",
+          "action": "create",
           "title": "{{flpTitle}}",
           "signature": {
             "parameters": {},
