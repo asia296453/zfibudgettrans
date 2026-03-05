@@ -461,6 +461,8 @@ debugger;
                 sTxt = 'Rejected';
             }else if (sText === 'PO') {
                 sTxt = 'Posted';
+            }else if (sText === 'DL') {
+                sTxt = 'Deleted';
             }
 
             return sTxt;
@@ -607,9 +609,20 @@ debugger;
                 a = this.getModel("i18n");
           //  this._oAttachmentDialog = t.byId("idDialogUploadAttachments");
             var LabelText = e;
-            if (!this._oAttachmentDialog) {
-                this._oAttachmentDialog = sap.ui.xmlfragment(t.getId(), "zfibudgettrans.fragment.UploadAttachments", this);
-                t.addDependent(this._oAttachmentDialog)
+            // if (!this._oAttachmentDialog) {
+            //     this._oAttachmentDialog = sap.ui.xmlfragment(t.getId(), "zfibudgettrans.fragment.UploadAttachments", this);
+            //     t.addDependent(this._oAttachmentDialog)
+            // }
+            if(this.getOwnerComponent().getModel("create").getData().results.Status !== 'RE'){
+                if (!this._oAttachmentDialog) {
+                    this._oAttachmentDialog = sap.ui.xmlfragment(t.getId(), "zfibudgettrans.fragment.UploadAttachments", this);
+                    t.addDependent(this._oAttachmentDialog);
+                }
+            }else{//review status
+                if (!this._oAttachmentDialog) {
+                    this._oAttachmentDialog = sap.ui.xmlfragment(t.getId(), "zfibudgettrans.fragment.UploadAttachments_re", this);
+                    t.addDependent(this._oAttachmentDialog);
+                }
             }
             jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._oAttachmentDialog);
             this.getView().setBusy(true);
@@ -622,8 +635,13 @@ debugger;
             this._oAttachmentDialog.open();
         },
         readAllAttachmentData: function (e, bflag,sBreqno) {
-            var t = this.getModel("AttachmentType").Breqno,
-                r = this.getOwnerComponent().getModel(),
+            var t = '';
+            if(this.getModel("AttachmentType").Breqno === undefined){
+                    t = sBreqno;
+            }else{
+                t = this.getModel("AttachmentType").Breqno;
+            }
+             var   r = this.getOwnerComponent().getModel(),
                 surll = "/ATTACH1Set",
                 s = [],
                 sListType = e;
@@ -699,6 +717,9 @@ debugger;
                 };
                 t.push(r)
             }
+            if(e.results.length > 0){
+                this.sserial = e.results.length;
+            }
             i.setData([]);
             i.setData({
                 ATTACHSet: t
@@ -707,9 +728,11 @@ debugger;
             
         },
         onHandleCancelUpload1: function (e) {
+            this.getView().setBusy(false);
             this._oAttachmentDialog.close();
          },
         onHandleCancelUpload: function (e) {
+            this.getView().setBusy(false);
             this._oAttachmentDialog.close();
         },
 
@@ -756,7 +779,8 @@ debugger;
             e.getParameters().addHeaderParameter(s)
         },
         onUploadCompleteListData: function (e) {
-            this.readAllAttachmentData(this.getModel("AttachmentType").sListType, 'X');
+            var sBreqno = this.getOwnerComponent().getModel("create").getData().results.Breqno;
+            this.readAllAttachmentData(this.getModel("AttachmentType").sListType, 'X',sBreqno);
         },
         onChangeListData: function (e) {
             //BOC-EX-GOME
@@ -778,7 +802,7 @@ debugger;
                 return;
             }
             
-            this.getOwnerComponent().getModel("attachflag").setProperty("/flag", 'X');
+         //   this.getOwnerComponent().getModel("attachflag").setProperty("/flag", 'X');
             var t = "/sap/opu/odata/sap/ZFI_BUDGET_REQ_SRV",
                 //EOC-EX-GOME
                 a = {

@@ -9,7 +9,8 @@ sap.ui.define([
 
     return BaseController.extend("zfibudgettrans.controller.Main", {
         onInit() {
-            this.getOwnerComponent().getModel("attachflag").setProperty("/flag", '');
+            debugger;
+            this.getOwnerComponent().getModel("attachflag").setProperty("/flag", false);
             this.suser = '';
             if(sap.ushell !== undefined){
                 this.suser = sap.ushell.Container.getService("UserInfo").getId();
@@ -88,6 +89,12 @@ sap.ui.define([
                 if (this.getOwnerComponent().getModel("create").getData().results.Status === '') {
                     sBreqno = '';
                 }
+                if(response.Status === 'RE'){
+                            this.getOwnerComponent().getModel("attachflag").setProperty("/flag", true);
+                            this.readAllAttachmentData('', 'X',response.Breqno);
+                        }else{
+                             this.getOwnerComponent().getModel("attachflag").setProperty("/flag", false);
+                        }
                 this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
                 this.getdocyear(ddate);
                     this.getOwnerComponent().getModel("create").refresh(true);
@@ -455,7 +462,10 @@ sap.ui.define([
                                 this.showBusy(false); 
                                 if(oData.Breqno !== ''){  
                                     this.getOwnerComponent().getModel("create").setProperty("/results", oData);
-                                this.onStartUpload(oData.Breqno); 
+                               // this.onStartUpload(oData.Breqno); 
+                               if(this.byId("idUploadCollectionAttachments") !== undefined){ //skip upload on RE as it is uploading before submit
+                                        this.onStartUpload(oData.Breqno); 
+                                     }
                                 var sMsg = "Budget Request No "+oData.Breqno+" Submitted Successfully ";
                                 MessageBox.success(sMsg, {
                                     actions: ["OK"],

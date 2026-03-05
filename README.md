@@ -8,7 +8,7 @@
 |**Template Used**<br>Basic V2|
 |**Service Type**<br>SAP System (ABAP On-Premise)|
 |**Service URL**<br>http://vhsa1de1ap01.sap.saudiacargo.com:8000/sap/opu/odata/sap/ZFI_BUDGET_REQ_SRV|
-|**Module Name**<br>zfi_budget_trans|
+|**Module Name**<br>ZFI_BUDGET_TRA|
 |**Application Title**<br>SACC Budget Transfers|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
@@ -17,7 +17,7 @@
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
 
-## zfi_budget_trans
+## ZFI_BUDGET_TRA
 
 An SAP Fiori application.
 
