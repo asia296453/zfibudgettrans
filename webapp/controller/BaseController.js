@@ -120,7 +120,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 bflag = false;
             }
             else if(ovalue.Btext === null || ovalue.Btext === ''){
-                MessageBox.error("Please enter Description");
+                MessageBox.error("Please enter Justification");
                 bflag = false;
             }
             // else if(ovalue.Process === null || ovalue.Process === ''){
@@ -795,6 +795,45 @@ debugger;
                             this.getView().byId("idUploadCollectionAttachments").getItems().forEach(function (item,idx) {
                                if(item.mProperties.fileName === this.sfile){
                                 this.getView().byId("idUploadCollectionAttachments").removeItem(idx);
+                               }
+                            }.bind(this));
+                        }}.bind(this)});
+    
+                return;
+            }
+            
+         //   this.getOwnerComponent().getModel("attachflag").setProperty("/flag", 'X');
+            var t = "/sap/opu/odata/sap/ZFI_BUDGET_REQ_SRV",
+                //EOC-EX-GOME
+                a = {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Content-Type": "application/atom+xml",
+                    "X-CSRF-Token": "Fetch"
+                },
+                i = new sap.ui.model.odata.ODataModel(t, "false", "", "", a, true);
+            sap.ui.getCore().setModel(i, "XCRFTokenModel");
+            sap.ui.getCore().getModel("XCRFTokenModel").refreshSecurityToken();
+            var r = sap.ui.getCore().getModel("XCRFTokenModel").getHeaders()["x-csrf-token"],
+                o = e.getSource(),
+                s = new sap.m.UploadCollectionParameter({
+                    name: "x-csrf-token",
+                    value: r
+                });
+            o.addHeaderParameter(s)
+        },
+        onChangeListData1: function (e) {
+            //BOC-EX-GOME
+            var sregex = /^[0-9a-zA-Z ... ]+$/;
+            var ofile = e.mParameters.files[0].name.split(".");
+            this.sfile = e.mParameters.files[0].name;
+            if(ofile.length > 2){
+                sap.m.MessageBox.error("Invalid Filename", {
+                    initialFocus: sap.m.MessageBox.Action.CANCEL,
+                    onClose: function (sButton) {
+                        if (sButton == "CLOSE") {
+                            this.getView().byId("idUploadCollectionAttachments1").getItems().forEach(function (item,idx) {
+                               if(item.mProperties.fileName === this.sfile){
+                                this.getView().byId("idUploadCollectionAttachments1").removeItem(idx);
                                }
                             }.bind(this));
                         }}.bind(this)});
